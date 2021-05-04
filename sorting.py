@@ -1,8 +1,12 @@
 import numpy as np
 import math
-from numpy.core.arrayprint import _none_or_positive_arg
+import time
 
-test_array = np.random.randint(0, 20, size = 20)
+print("Enter array size: ")
+array_size = int(input())
+test_array = np.random.randint(0, 20, size = array_size)
+print("starting array:  ", test_array)
+
 
 def insertion_sort(array):
     i = 1
@@ -15,10 +19,9 @@ def insertion_sort(array):
         i = i + 1
     return array
 
-
-print("starting array:  ", test_array)
-
+starttime = time.perf_counter()
 print("insertion sort:  ", insertion_sort(test_array))
+print("time to sport: {} seconds.".format(str(time.perf_counter() - starttime)))
 
 def bubble_sort(array):
     n = len(array)
@@ -33,7 +36,9 @@ def bubble_sort(array):
         n = new_n
     return array
 
+starttime = time.perf_counter()
 print("bubble_sort:     ", bubble_sort(test_array))
+print("time to sport: {} seconds.".format(str(time.perf_counter() - starttime)))
 
 def merge_sort(array):
     if len(array) <= 1:
@@ -57,7 +62,10 @@ def merge(left, right, array):
     
     return array
 
+
+starttime = time.perf_counter()
 print("merge sort:      ", merge_sort(test_array))
+print("time to sport: {} seconds.".format(str(time.perf_counter() - starttime)))
 
 # Using hoares partition scheme
 def quick_sort(array, lo = 0, hi = None):
@@ -87,7 +95,9 @@ def partition(array, lo, hi):
         array[i], array[j] = array[j], array[i]
         
 
+starttime = time.perf_counter()
 print("quick sort:      ", quick_sort(test_array))
+print("time to sport: {} seconds.".format(str(time.perf_counter() - starttime)))
 
 def heap_sort(array):
     n = len(array)
@@ -112,5 +122,29 @@ def heapify(array, n, count):
         array[count], array[max_int] = array[max_int], array[count]
         heapify(array, n, max_int)
 
-print("heap sort:       ", heap_sort(test_array))
 
+starttime = time.perf_counter()
+print("heap sort:       ", heap_sort(test_array))
+print("time to sport: {} seconds.".format(str(time.perf_counter() - starttime)))
+
+"""
+Visualization of sorting
+"""
+"""
+algo = heap_sort(test_array)
+
+fig, ax = plt.subplots()
+ax.set_title("Heap sort")
+bar_rec = ax.bar(range(len(test_array)), test_array, align="edge")
+text = ax.text(0.02, 0.95, "", transform=ax.TransAxes)
+epochs = [0]
+
+def update_plot(array, rec, epochs):
+    for rec, val in zip(rec, array):
+        rec.set_height(val)
+    epochs[0] += 1
+    text.set_text("No of operations :{}".format(epochs[0]))
+
+anim = animation.FuncAnimation(fig, func=update_plot, fargs=(bar_rec, epochs), frames=algo, interval=1, repeat=False)
+plt.show()
+"""
