@@ -2,53 +2,23 @@ import numpy as np
 import math
 import time
 
-print("Enter array size: ")
-array_size = int(input())
-test_array = np.random.randint(0, 20, size = array_size)
-print("starting array:  ", test_array)
+
+def init_array(min, max, size):
+    return np.random.randint(min, max, size)
 
 
-def insertion_sort(array):
-    i = 1
-    while i < len(array):
-        j = i
-        while j > 0 and array[j - 1] > array[j]:
-            #swapping the value of [j - 1] and [j]
-            array[j - 1], array[j] = array[j], array[j - 1]
-            j = j - 1
-        i = i + 1
-    return array
 
-starttime = time.perf_counter()
-print("insertion sort:  ", insertion_sort(test_array))
-print("time to sport: {} seconds.".format(str(time.perf_counter() - starttime)))
 
-def bubble_sort(array):
-    n = len(array)
-    while n <= 1:
-        new_n = 0
-        i = 1
-        for int in range(i, n - 1):
-            if array[i - 1] > array[i]:
-                #swapping values of [i - 1] and [i]
-                array[i - 1], array[i] = array[i], array[i - 1]
-                new_n = i
-        n = new_n
-    return array
 
-starttime = time.perf_counter()
-print("bubble_sort:     ", bubble_sort(test_array))
-print("time to sport: {} seconds.".format(str(time.perf_counter() - starttime)))
-
-def merge_sort(array):
+def merge_sort(start = [], array):
     if len(array) <= 1:
         return array
     mid = len(array)//2
-    left = merge_sort(array[:mid])
-    right = merge_sort(array[mid:])
-    return merge(left,right, array)
+    left = merge_sort(start, array[:mid])
+    right = merge_sort(start, array[mid:])
+    return merge(start, left, right, array)
 
-def merge(left, right, array):
+def merge(start, left, right, array):
     i = j = k = 0
 
     while i < len(left) and j < len(right):
@@ -63,9 +33,6 @@ def merge(left, right, array):
     return array
 
 
-starttime = time.perf_counter()
-print("merge sort:      ", merge_sort(test_array))
-print("time to sport: {} seconds.".format(str(time.perf_counter() - starttime)))
 
 # Using hoares partition scheme
 def quick_sort(array, lo = 0, hi = None):
@@ -95,9 +62,6 @@ def partition(array, lo, hi):
         array[i], array[j] = array[j], array[i]
         
 
-starttime = time.perf_counter()
-print("quick sort:      ", quick_sort(test_array))
-print("time to sport: {} seconds.".format(str(time.perf_counter() - starttime)))
 
 def heap_sort(array):
     n = len(array)
@@ -123,9 +87,6 @@ def heapify(array, n, count):
         heapify(array, n, max_int)
 
 
-starttime = time.perf_counter()
-print("heap sort:       ", heap_sort(test_array))
-print("time to sport: {} seconds.".format(str(time.perf_counter() - starttime)))
 
 """
 Visualization of sorting
