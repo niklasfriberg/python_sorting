@@ -9,7 +9,7 @@ def init_array(min, max, size):
 
 
 
-
+"""
 def merge_sort(start = [], array):
     if len(array) <= 1:
         return array
@@ -31,7 +31,7 @@ def merge(start, left, right, array):
         k += 1
     
     return array
-
+"""
 
 
 # Using hoares partition scheme
