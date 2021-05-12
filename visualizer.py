@@ -1,6 +1,7 @@
 import pygame
 import pygame_menu
 import sorting
+import math
 
 pygame.init()
 # Get resolution info
@@ -12,11 +13,12 @@ window_h = int(displayInfo.current_h / 2)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+TURQUOISE = (0, 255, 255)
 selected_algorithm = None
-min_value = None
-max_value = None
-array_size = None
-time_delay = None
+min_value = 0
+max_value = 100
+array_size = 20
+time_delay = 1000
 bar_width = None
 array = []
 color_array = []
@@ -119,7 +121,46 @@ def merge(array, x1, y1, x2, y2):
         draw_bars()
         color_array[i] = RED
 
+# Using hoares partition scheme
+def quick_sort(array, lo = 0, hi = None):
+    if hi == None:
+        hi = len(array) - 1
+    
+    if lo < hi:
+        p = partition(array, lo, hi)
+        quick_sort(array, lo, p)
+        quick_sort(array, p + 1, hi)
 
+def partition(array, lo, hi):
+    pivot_number = math.floor((hi + lo) / 2)
+    pivot = array[pivot_number]
+    color_array[pivot_number] = TURQUOISE
+    i = lo - 1
+    j = hi + 1
+    while True:
+        draw_bars()
+        i += 1
+        while array[i] < pivot:
+            color_array[i] = BLUE
+            draw_bars()
+            color_array[i] = RED
+            i += 1
+        j -= 1
+        while array[j] > pivot:
+            color_array[j] = BLUE
+            draw_bars()
+            color_array[j] = RED
+            j -= 1
+        if i >= j:
+            color_array[pivot_number] = RED
+            return j
+        color_array[i] ,color_array[j] = GREEN, BLUE
+        draw_bars()
+        array[i], array[j] = array[j], array[i]
+        color_array[i], color_array[j] = BLUE, GREEN
+        draw_bars()
+        color_array[i], color_array[j] = RED, RED
+        
 
 # Set window size and title
 window = pygame.display.set_mode([window_w, window_h])
@@ -169,6 +210,9 @@ def sort_display():
     if selected_algorithm == 2:
         merge_sort(array, 0, array_size - 1)
         display_final()
+    if selected_algorithm == 3:
+        quick_sort(array)
+        display_final()
 
 
 def draw_bars():
@@ -176,15 +220,15 @@ def draw_bars():
     global color_array
     window.fill((255,255,255))
     for i in range(len(array)):
-        pygame.draw.rect(window, color_array[i], (x + bar_width * i, y, bar_width, array[i] * window_h / max_value))
+        pygame.draw.rect(window, color_array[i], (x + bar_width * i, y, bar_width * 0.7, array[i] * window_h / max_value))
     pygame.time.delay(int(time_delay))
     pygame.display.update()
 
 menu = pygame_menu.Menu('Sorting', window_w, window_h)
-menu.add.text_input('Minimum value: ', input_type=pygame_menu.locals.INPUT_INT, onchange = set_min_value)
-menu.add.text_input('Maximum value: ', input_type=pygame_menu.locals.INPUT_INT, onchange = set_max_value)
-menu.add.text_input('Array size: ', input_type=pygame_menu.locals.INPUT_INT, onchange = set_array_size)
-menu.add.text_input('Tick time (ms): ', input_type=pygame_menu.locals.INPUT_INT, onchange = set_time_delay)
+menu.add.text_input('Minimum value: ', 0, input_type=pygame_menu.locals.INPUT_INT, onchange = set_min_value)
+menu.add.text_input('Maximum value: ', 100, input_type=pygame_menu.locals.INPUT_INT, onchange = set_max_value)
+menu.add.text_input('Array size: ', 20, input_type=pygame_menu.locals.INPUT_INT, onchange = set_array_size)
+menu.add.text_input('Tick time (ms): ', 1000, input_type=pygame_menu.locals.INPUT_INT, onchange = set_time_delay)
 menu.add.dropselect(
     title = 'Sorting algorithm',
     items=[('Insertion sort', 0),
