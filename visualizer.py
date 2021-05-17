@@ -30,7 +30,6 @@ Implementation of sorting algorithms
 """
 # Insertion sort
 def insertion_sort():
-    global array
     i = 1
     running = True
     while running:
@@ -54,8 +53,6 @@ def insertion_sort():
 
 # Bubble sort
 def bubble_sort():
-    global array
-    global color_array
     running = True
     while running:
         for event in pygame.event.get():
@@ -121,6 +118,7 @@ def merge(array, x1, y1, x2, y2):
         draw_bars()
         color_array[i] = RED
 
+# Quick sort
 # Using hoares partition scheme
 def quick_sort(array, lo = 0, hi = None):
     if hi == None:
@@ -138,7 +136,7 @@ def partition(array, lo, hi):
     i = lo - 1
     j = hi + 1
     while True:
-        draw_bars()
+        #draw_bars()
         i += 1
         while array[i] < pivot:
             color_array[i] = BLUE
