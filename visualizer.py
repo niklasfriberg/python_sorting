@@ -35,7 +35,8 @@ def insertion_sort():
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
+                quit()
         while i < len(array):
             j = i
             while j > 0 and array[j - 1] > array[j]:
@@ -136,7 +137,6 @@ def partition(array, lo, hi):
     i = lo - 1
     j = hi + 1
     while True:
-        #draw_bars()
         i += 1
         while array[i] < pivot:
             color_array[i] = BLUE
