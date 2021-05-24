@@ -1,5 +1,5 @@
 # Sorting visualizer
-This is a sorting visualizer written in python using the pygame library.
+This is a sorting visualizer written in python using the pygame library for visualization.
 ### Implemented algorithms
 - Insertion sort
 - Bubble sort
