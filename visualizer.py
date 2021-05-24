@@ -1,6 +1,5 @@
 import pygame
 import pygame_menu
-import sorting
 import math
 
 pygame.init()
