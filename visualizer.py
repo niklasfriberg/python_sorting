@@ -158,6 +158,42 @@ def partition(array, lo, hi):
         color_array[i], color_array[j] = BLUE, GREEN
         draw_bars()
         color_array[i], color_array[j] = RED, RED
+
+# Heap sort
+def heap_sort(array):
+    n = len(array)
+    for i in range(n, -1, -1):
+        heapify(array, n, i)
+    for i in range(n-1, 0, -1):
+        color_array[i] = GREEN
+        color_array[0] = GREEN
+        draw_bars()
+        array[i], array[0] = array[0], array[i]
+        draw_bars()
+        color_array[i] = RED
+        color_array[0] = RED
+        heapify(array, i, 0)
+    draw_bars()
+
+def heapify(array, n, count):
+
+    max_int = count
+    
+    left = 2 * count + 1
+    right = 2 * count + 2
+    if left < n and array[count] < array[left]:
+        max_int = left
+    if right < n and array[max_int] < array[right]:
+        max_int = right
+    if max_int != count:
+        color_array[count] = BLUE
+        color_array[max_int] = BLUE
+        draw_bars()
+        array[count], array[max_int] = array[max_int], array[count]
+        draw_bars()
+        color_array[count] = RED
+        color_array[max_int] = RED
+        heapify(array, n, max_int)
         
 
 # Set window size and title
@@ -211,6 +247,9 @@ def sort_display():
     if selected_algorithm == 3:
         quick_sort(array)
         display_final()
+    if selected_algorithm == 4:
+        heap_sort(array)
+        display_final()
 
 
 def draw_bars():
@@ -232,7 +271,8 @@ menu.add.dropselect(
     items=[('Insertion sort', 0),
     ('Bubble sort', 1),
     ('Merge sort', 2),
-    ('Quick sort', 3)],
+    ('Quick sort', 3),
+    ('Heap sort', 4)],
     font_size=20,
     selection_option_font_size=20,
     onchange=set_algo
